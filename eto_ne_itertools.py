@@ -1,9 +1,9 @@
-from typing import Generator
+from typing import Generator, Iterable
 
 
 def count(start: int = 0, step: int = 1) -> Generator:
     """
-    Returns an iterator of an infinite arithmetic sequence of integers
+    Returns a generator of an infinite arithmetic sequence of integers
     with the first element equal to start and a certain step.
 
     :param start: the beginning number
@@ -23,3 +23,28 @@ def count(start: int = 0, step: int = 1) -> Generator:
     while True:
         yield num
         num += step
+
+
+def cycle(iterable: Iterable) -> Generator:
+    """
+    Returns an infinite generator over the
+    content of the given iterable object.
+
+    :param iterable: iterable object to create a cycle over
+    :return: an infinite generator
+
+    >>> cycle_1 = cycle("UCU")
+    >>> next(cycle_1)
+    'U'
+    >>> next(cycle_1)
+    'C'
+    >>> next(cycle_1)
+    'U'
+    >>> type(cycle_1)
+    <class 'generator'>
+    """
+    num = 0
+    while True:
+        yield iterable[num]
+
+        num = (num + 1) % len(iterable)
