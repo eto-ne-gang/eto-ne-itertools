@@ -33,10 +33,10 @@ def product(*iterables, repeat=1):
     [(1, 4), (1, 5), (1, 6), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5), (3, 6)]
     '''
 
-    pools = [list(pool) for pool in iterables] * repeat
+    iter_lst = [list(iter_var) for iter_var in iterables] * repeat
     result = [[]]
-    for pool in pools:
-        result = [x+[y] for x in result for y in pool]
+    for iter_var in iter_lst:
+        result = [x+[y] for x in result for y in iter_var]
     for prod in result:
         yield tuple(prod)
 
