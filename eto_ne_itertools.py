@@ -1,3 +1,17 @@
+"""A module with alternatives of some functions from itertools module.
+
+    Functions
+    ---------
+        count - an infinite arithmetic sequence
+        cycle - an infinite cycle over the iterable object
+        repeat - repetition of a value
+        product - cartesian product of input iterables
+        combinations - combinations of certain length with unique elements
+        combinations_with_replacement - combinations of certain length with
+                                        unique elements that might contain duplicates
+        
+"""
+
 from typing import Generator, Iterable
 
 
@@ -10,13 +24,16 @@ def count(start: int = 0, step: int = 1) -> Generator:
     :param step: differnce between first and second element
     :return: generator of an infinite arithmetic sequence
 
+    >>> type(counter)
+    <class 'generator'>
     >>> counter = count(1, 5)
     >>> next(counter)
     1
     >>> next(counter)
     6
-    >>> type(counter)
-    <class 'generator'>
+    >>> counter = count()
+    >>> next(counter)
+    0
     """
     num = start
 
@@ -34,14 +51,14 @@ def cycle(iterable: Iterable) -> Generator:
     :return: an infinite generator
 
     >>> cycle_1 = cycle("UCU")
+    >>> type(cycle_1)
+    <class 'generator'>
     >>> next(cycle_1)
     'U'
     >>> next(cycle_1)
     'C'
     >>> next(cycle_1)
     'U'
-    >>> type(cycle_1)
-    <class 'generator'>
     """
     num = 0
     while True:
@@ -50,51 +67,63 @@ def cycle(iterable: Iterable) -> Generator:
         num = (num + 1) % len(iterable)
 
 
-def repeat(val, num=False):
-    '''
-    iterator that returns object either infinite amount
-    of times or a specified amount of times
+def repeat(val, repeat=None):
+    """
+    Return a generator of repeated value.Default
+    number of repetitions equals to infinity.
+
+    :param val: a value to repeat
+    :param repeat[optional]: number of repetitions
+    :return: generator of repeated values
+
+    >>> type(repeat(5, 10))
+    <class 'generator'>
     >>> list(map(pow, range(10), repeat(2)))
     [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
     >>> list(repeat(100, 10))
     [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
     >>> list(repeat('spam', 5))
     ['spam', 'spam', 'spam', 'spam', 'spam']
-    '''
+    """
 
-    if not num:
+    if repeat is None:
         while True:
             yield val
-    else:
-        for _ in range(num):
-            yield val
+
+    for _ in range(repeat):
+        yield val
 
 
-def product(*iterables, repeat=1):
-    '''
-    Function returns cartesian product of input iterables
-    >>> list(product([1,2], range(2), 'ab'))
-    [(1, 0, 'a'), (1, 0, 'b'), (1, 1, 'a'), (1, 1, 'b'), (2, 0, 'a'),\
- (2, 0, 'b'), (2, 1, 'a'), (2, 1, 'b')]
+def product(*iterables: Iterable, repeat: int = 1):
+    """
+    Return a generator with a cartesian product of given iterables.
+
+    :param iterables: iterable objects
+    :param repeat[optional]: number of repetitions
+    :return: generator of cartesian product
     >>> list(product([1,2,3], [4,5,6]))
     [(1, 4), (1, 5), (1, 6), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5), (3, 6)]
-    '''
-
+    >>> len(list(product([1,2], range(2), 'ab')))
+    8
+    """
     iter_lst = [list(iter_var) for iter_var in iterables] * repeat
     result = [[]]
+
     for iter_var in iter_lst:
-        result = [x+[y] for x in result for y in iter_var]
+        result = [x + [y] for x in result for y in iter_var]
+
     for prod in result:
         yield tuple(prod)
 
 
 def combinations(r: int, n: int) -> Generator:
     """
-    Return a geenrator of combinations with unique elements of length
+    Return a generator of combinations with unique elements of length
     r that consist of the first n integer values starting from 0.
 
     :param r: length of each combination
     :param n: number of integers to choose from
+    :return: generator of combionations
 
     >>> type(combinations(0, 4))
     <class 'generator'>
@@ -140,11 +169,12 @@ def combinations(r: int, n: int) -> Generator:
 
 def combinations_with_replacement(r: int, n: int) -> Generator:
     """
-    Return a geenrator of combinations with replacement of length
+    Return a generator of combinations with replacement of length
     r that consist of the first n integer values starting from 0.
 
     :param r: length of each combination
     :param n: number of integers to choose from
+    :return: generator of combionations with replacement
 
     >>> type(combinations_with_replacement(0, 4))
     <class 'generator'>
