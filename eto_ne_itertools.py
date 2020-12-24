@@ -9,7 +9,7 @@
         combinations - combinations of certain length with unique elements
         combinations_with_replacement - combinations of certain length with
                                         unique elements that might contain duplicates
-        
+
 """
 
 from typing import Generator, Iterable
@@ -24,9 +24,10 @@ def count(start: int = 0, step: int = 1) -> Generator:
     :param step: differnce between first and second element
     :return: generator of an infinite arithmetic sequence
 
+
+    >>> counter = count(1, 5)
     >>> type(counter)
     <class 'generator'>
-    >>> counter = count(1, 5)
     >>> next(counter)
     1
     >>> next(counter)
@@ -67,8 +68,8 @@ def cycle(iterable: Iterable) -> Generator:
         num = (num + 1) % len(iterable)
 
 
-def repeat(val, repeat=None):
-    """
+def repeat(val, num=False):
+    '''
     Return a generator of repeated value.Default
     number of repetitions equals to infinity.
 
@@ -78,40 +79,69 @@ def repeat(val, repeat=None):
 
     >>> type(repeat(5, 10))
     <class 'generator'>
-    >>> list(map(pow, range(10), repeat(2)))
-    [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+    >>> list(repeat([1,2,3], 4))
+    [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
     >>> list(repeat(100, 10))
     [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
-    >>> list(repeat('spam', 5))
-    ['spam', 'spam', 'spam', 'spam', 'spam']
-    """
+    >>> list(repeat('Hello World!', 5))
+    ['Hello World!', 'Hello World!', 'Hello World!', 'Hello World!', 'Hello World!']
+    '''
 
-    if repeat is None:
+    #if the amount of repeats is not given - return generator infinitely
+    if not num:
         while True:
             yield val
 
-    for _ in range(repeat):
+    #return generator of the value given amount of times
+    for _ in range(num):
         yield val
 
 
 def product(*iterables: Iterable, repeat: int = 1):
-    """
+    '''
     Return a generator with a cartesian product of given iterables.
 
     :param iterables: iterable objects
     :param repeat[optional]: number of repetitions
     :return: generator of cartesian product
+
+    >>> list(product([1,2], range(2), 'ab'))
+    [(1, 0, 'a'), (1, 0, 'b'), (1, 1, 'a'), (1, 1, 'b'), (2, 0, 'a'),\
+ (2, 0, 'b'), (2, 1, 'a'), (2, 1, 'b')]
     >>> list(product([1,2,3], [4,5,6]))
     [(1, 4), (1, 5), (1, 6), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5), (3, 6)]
-    >>> len(list(product([1,2], range(2), 'ab')))
-    8
-    """
-    iter_lst = [list(iter_var) for iter_var in iterables] * repeat
+    >>> list(product(('Hello', 1), [2, 'World!']))
+    [('Hello', 2), ('Hello', 'World!'), (1, 2), (1, 'World!')]
+    '''
+
+    #read all the iterables as list, write down each in list
+    all_iterables = []
+
+    for iterable in iterables:
+        iterable = list(iterable)
+        all_iterables.append(iterable)
+
+    all_iterables *= repeat
+
     result = [[]]
 
-    for iter_var in iter_lst:
-        result = [x + [y] for x in result for y in iter_var]
+    #operate each iterable and find cartesian product for them
+    for iterable in all_iterables:
+        cartesian = []
 
+        #get sublists of result and find cartesian product for
+        #currently operated iterables
+        for temp_result_lst in result:
+
+            #add to each list present in result elements of new iterable
+            for element in iterable:
+                copy_res_lst = temp_result_lst
+                copy_res_lst = copy_res_lst + [element]
+                cartesian.append(copy_res_lst)
+
+        result = cartesian
+
+    #form elements of cartesian product as tuples instead of lists
     for prod in result:
         yield tuple(prod)
 
