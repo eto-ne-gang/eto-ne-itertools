@@ -255,10 +255,10 @@ def permutations(iterable, length="iterable"):
     Yields a new permutation (in ascending order) with each next() call.
     If length is not specified, it is set to the length of the iterable.
     Returns an iterable of all permutations.
-    
+
     :param iterable: iterable to get permutations from
     :param length: length of each permutation
-    :return: iterable of all permutations found
+    :return: generator object (iterable of all permutations found)
 
     >>> list(permutations([1,2,3], 2))
     [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
@@ -266,6 +266,8 @@ def permutations(iterable, length="iterable"):
     [[10, 16, -11], [10, -11, 16], [16, 10, -11], [16, -11, 10], [-11, 10, 16], [-11, 16, 10]]
     >>> list(permutations([1,5,-7]))
     [[1, 5, -7], [1, -7, 5], [5, 1, -7], [5, -7, 1], [-7, 1, 5], [-7, 5, 1]]
+    >>> type(permutations([1, 2, 3]))
+    <class 'generator'>
     """
     if length == "iterable":
         length = len(iterable)
@@ -275,7 +277,7 @@ def permutations(iterable, length="iterable"):
             yield permutation
     else:
         new_permutations = []
-        for permutation in permutations(iterable, length-1):
+        for permutation in permutations(iterable, length - 1):
             temp_iterable = []
             for elem in iterable:
                 if elem not in permutation:
