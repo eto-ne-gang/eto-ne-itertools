@@ -12,7 +12,6 @@
         permutations - permutations of certain length with unique elements
 
 """
-
 from typing import Generator, Iterable
 
 
@@ -22,7 +21,7 @@ def count(start: int = 0, step: int = 1) -> Generator:
     with the first element equal to start and a certain step.
 
     :param start: the beginning number
-    :param step: differnce between first and second element
+    :param step: difference between first and second element
     :return: generator of an infinite arithmetic sequence
 
 
@@ -69,7 +68,7 @@ def cycle(iterable: Iterable) -> Generator:
         num = (num + 1) % len(iterable)
 
 
-def repeat(val, num=False):
+def repeat(val):
     '''
     Return a generator of repeated value.Default
     number of repetitions equals to infinity.
@@ -84,16 +83,16 @@ def repeat(val, num=False):
     [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
     >>> list(repeat(100, 10))
     [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
-    >>> list(repeat('Hello World!', 5))
-    ['Hello World!', 'Hello World!', 'Hello World!', 'Hello World!', 'Hello World!']
+    >>> list(repeat('Hello World!', 3))
+    ['Hello World!', 'Hello World!', 'Hello World!']
     '''
 
-    #if the amount of repeats is not given - return generator infinitely
+    # if the amount of repeats is not given - return generator infinitely
     if not num:
         while True:
             yield val
 
-    #return generator of the value given amount of times
+    # return generator of the value given amount of times
     for _ in range(num):
         yield val
 
@@ -115,7 +114,7 @@ def product(*iterables: Iterable, repeat: int = 1):
     [('Hello', 2), ('Hello', 'World!'), (1, 2), (1, 'World!')]
     '''
 
-    #read all the iterables as list, write down each in list
+    # read all the iterables as list, write down each in list
     all_iterables = []
 
     for iterable in iterables:
@@ -126,15 +125,15 @@ def product(*iterables: Iterable, repeat: int = 1):
 
     result = [[]]
 
-    #operate each iterable and find cartesian product for them
+    # operate each iterable and find cartesian product for them
     for iterable in all_iterables:
         cartesian = []
 
-        #get sublists of result and find cartesian product for
-        #currently operated iterables
+        # get sublists of result and find cartesian product for
+        # currently operated iterables
         for temp_result_lst in result:
 
-            #add to each list present in result elements of new iterable
+            # add to each list present in result elements of new iterable
             for element in iterable:
                 copy_res_lst = temp_result_lst
                 copy_res_lst = copy_res_lst + [element]
@@ -142,7 +141,7 @@ def product(*iterables: Iterable, repeat: int = 1):
 
         result = cartesian
 
-    #form elements of cartesian product as tuples instead of lists
+    # form elements of cartesian product as tuples instead of lists
     for prod in result:
         yield tuple(prod)
 
@@ -172,7 +171,7 @@ def combinations(r: int, n: int) -> Generator:
     nums = list(range(r))
 
     # return the first combination
-    yield tuple(num for num in nums)
+    yield tuple(nums)
 
     while True:
         curr_idx = None
