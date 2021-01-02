@@ -9,6 +9,7 @@
         combinations - combinations of certain length with unique elements
         combinations_with_replacement - combinations of certain length with
                                         unique elements that might contain duplicates
+        permutations - permutations of certain length with unique elements
 
 """
 
@@ -246,6 +247,45 @@ def combinations_with_replacement(r: int, n: int) -> Generator:
 
         # return the current combination
         yield tuple(num for num in nums)
+        
+
+def permutations(iterable, length="iterable"):
+    """
+    Recursively generates k-permutations of an iterable.
+    Yields a new permutation (in ascending order) with each next() call.
+    If length is not specified, it is set to the length of the iterable.
+    Returns an iterable of all permutations.
+    
+    :param iterable: iterable to get permutations from
+    :param length: length of each permutation
+    :return: iterable of all permutations found
+
+    >>> list(permutations([1,2,3], 2))
+    [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+    >>> list(permutations([10, 16, -11], 3))
+    [[10, 16, -11], [10, -11, 16], [16, 10, -11], [16, -11, 10], [-11, 10, 16], [-11, 16, 10]]
+    >>> list(permutations([1,5,-7]))
+    [[1, 5, -7], [1, -7, 5], [5, 1, -7], [5, -7, 1], [-7, 1, 5], [-7, 5, 1]]
+    """
+    if length == "iterable":
+        length = len(iterable)
+    if length == 1:
+        lst = [[el] for el in iterable]
+        for permutation in lst:
+            yield permutation
+    else:
+        new_permutations = []
+        for permutation in permutations(iterable, length-1):
+            temp_iterable = []
+            for elem in iterable:
+                if elem not in permutation:
+                    temp_iterable.append(elem)
+            for add_elem in temp_iterable:
+                new_permutations.append(permutation + [add_elem])
+        for permutation in new_permutations:
+            yield permutation
+
+
 
 
 if __name__ == '__main__':
