@@ -10,22 +10,22 @@ import unittest
 class TestCount(unittest.TestCase):
 
     def test_type(self):
-        counter = count(2, 4)
+        zero_counter = count(2, 4)
 
-        self.assertEqual(type(counter, < class 'generator' > )
+        self.assertEqual(type(zero_counter, '<class \'generator\'>')
 
     def test_step(self):
-        counter=count(1, 5)
+        second_counter=count(1, 5)
 
-        self.assertEqual(next(counter), 1)
-        self.assertEqual(next(counter), 6)
-        self.assertEqual(next(counter), 11)
+        self.assertEqual(next(second_counter), 1)
+        self.assertEqual(next(second_counter), 6)
+        self.assertEqual(next(second_counter), 11)
 
     def test_empty(self):
-        counter=count()
+        third_counter=count()
 
-        self.assertEqual(next(counter), 0)
-        self.assertEqual(next(counter), 1)
+        self.assertEqual(next(third_counter), 0)
+        self.assertEqual(next(third_counter), 1)
 
 
 class TestCycle(unittest.TestCase):
@@ -33,7 +33,7 @@ class TestCycle(unittest.TestCase):
     def test_type(self):
         zero_cycle=cycle("UCU")
 
-        self.assertEqual(type(zero_cycle), < class 'generator' > )
+        self.assertEqual(type(zero_cycle), '<class \'generator\'>')
 
     def test_step(self):
         first_cycle=cycle("TEST")
@@ -54,7 +54,7 @@ class TestCycle(unittest.TestCase):
 class TestCombinations(unittest.TestCase):
 
     def test_type(self):
-        self.assertEqual(type(combinations(0, 3)), < class 'generator' > )
+        self.assertEqual(type(combinations(0, 3)), '<class \'generator\'>')
 
     def test_zero(self):
         self.assertEqual(list(combinations(0, 4)), [()])
@@ -74,7 +74,8 @@ class TestCombinations(unittest.TestCase):
 class TestCombinationsReplacement(unittest.TestCase):
 
     def test_type(self):
-        self.assertEqual(type(combinations_with_replacement(0, 3)), < class 'generator' > )
+        self.assertEqual(
+            type(combinations_with_replacement(0, 3)), '<class \'generator\'>')
 
     def test_zero(self):
         self.assertEqual(list(combinations_with_replacement(0, 10)), [()])
@@ -95,7 +96,7 @@ class TestCombinationsReplacement(unittest.TestCase):
 class TestRepeat(unittest.TestCase):
 
     def test_type(self):
-        self.assertEqual(type(repeat(15, 7)), < class 'generator' > )
+        self.assertEqual(type(repeat(15, 7)), '<class \'generator\'>')
 
     def test_string(self):
         self.assertEqual(list(repeat('Hello', 2)), ['Hello', 'Hello'])
@@ -113,7 +114,8 @@ class TestRepeat(unittest.TestCase):
 class TestProduct(unittest.TestCase):
 
     def test_type(self):
-        self.assertEqual(type(product([1, 2], [4, 6])), < class 'generator' > )
+        self.assertEqual(
+            type(product([1, 2], [4, 6])), '<class \'generator\'>')
 
     def test_valid(self):
         self.assertEqual(list(product(('1', 1), [2, '2'])), [
@@ -127,7 +129,7 @@ class TestProduct(unittest.TestCase):
 class TestProduct(unittest.TestCase):
 
     def test_type(self):
-        self.assertEqual(type(permutations([1, 3])), < class 'generator' > )
+        self.assertEqual(type(permutations([1, 3])), '<class \'generator\'>')
 
     def test_valid(self):
         self.assertEqual(list(permutations([1, 3, 5], 2)), [
