@@ -88,12 +88,12 @@ def repeat(val):
     '''
 
     # if the amount of repeats is not given - return generator infinitely
-    if not num:
+    if not val:
         while True:
             yield val
 
     # return generator of the value given amount of times
-    for _ in range(num):
+    for _ in range(val):
         yield val
 
 
@@ -246,7 +246,7 @@ def combinations_with_replacement(r: int, n: int) -> Generator:
 
         # return the current combination
         yield tuple(num for num in nums)
-        
+
 
 def permutations(iterable, length="iterable"):
     """
@@ -285,8 +285,6 @@ def permutations(iterable, length="iterable"):
                 new_permutations.append(permutation + [add_elem])
         for permutation in new_permutations:
             yield permutation
-
-
 
 
 if __name__ == '__main__':
