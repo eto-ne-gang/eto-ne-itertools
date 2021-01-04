@@ -13,7 +13,6 @@
 
 """
 from typing import Generator, Iterable
-from copy import copy
 
 
 def count(start: int = 0, step: int = 1) -> Generator:
@@ -24,17 +23,6 @@ def count(start: int = 0, step: int = 1) -> Generator:
     :param start: the beginning number
     :param step: difference between first and second element
     :return: generator of an infinite arithmetic sequence
-
-    >>> counter = count(1, 5)
-    >>> type(counter)
-    <class 'generator'>
-    >>> next(counter)
-    1
-    >>> next(counter)
-    6
-    >>> counter = count()
-    >>> next(counter)
-    0
     """
     num = start
 
@@ -50,16 +38,6 @@ def cycle(iterable: Iterable) -> Generator:
 
     :param iterable: iterable object to create a cycle over
     :return: an infinite generator
-
-    >>> cycle_1 = cycle("UCU")
-    >>> type(cycle_1)
-    <class 'generator'>
-    >>> next(cycle_1)
-    'U'
-    >>> next(cycle_1)
-    'C'
-    >>> next(cycle_1)
-    'U'
     """
     num = 0
     while True:
@@ -75,9 +53,6 @@ def repeat(val):
 
     :param val: a value to repeat
     :return: generator of repeated values
-
-    >>> type(repeat(5))
-    <class 'generator'>
     """
     while True:
         yield val
@@ -89,14 +64,6 @@ def product(*iterables: Iterable):
 
     :param iterables: iterable objects
     :return: generator of cartesian product
-
-    >>> list(product([1, 2], range(2), 'ab'))
-    [(1, 0, 'a'), (1, 0, 'b'), (1, 1, 'a'), (1, 1, 'b'), (2, 0, 'a'),\
- (2, 0, 'b'), (2, 1, 'a'), (2, 1, 'b')]
-    >>> list(product([1, 2, 3], [4, 5, 6]))
-    [(1, 4), (1, 5), (1, 6), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5), (3, 6)]
-    >>> list(product(('Hello', 1), [2, 'World!']))
-    [('Hello', 2), ('Hello', 'World!'), (1, 2), (1, 'World!')]
     """
     if iterables:
         # traverse through all elements of the first iterable
@@ -118,15 +85,6 @@ def combinations(r: int, n: int) -> Generator:
     :param r: length of each combination
     :param n: number of integers to choose from
     :return: generator of combionations
-
-    >>> type(combinations(0, 4))
-    <class 'generator'>
-    >>> list(combinations(0, 4))
-    [()]
-    >>> list(combinations(5, 4))
-    []
-    >>> list(combinations(2, 3))
-    [(0, 1), (0, 2), (1, 2)]
     """
     if r > n:
         return
@@ -145,7 +103,7 @@ def combinations(r: int, n: int) -> Generator:
             if nums[idx] != idx + n - r:
                 curr_idx = idx
                 break
-        # if nothing can be modified, there is no more permutations
+        # if nothing can be modified, there are no more permutations
         else:
             return
 
@@ -169,15 +127,6 @@ def combinations_with_replacement(r: int, n: int) -> Generator:
     :param r: length of each combination
     :param n: number of integers to choose from
     :return: generator of combionations with replacement
-
-    >>> type(combinations_with_replacement(0, 4))
-    <class 'generator'>
-    >>> list(combinations_with_replacement(0, 4))
-    [()]
-    >>> list(combinations_with_replacement(5, 4))
-    []
-    >>> list(combinations_with_replacement(2, 3))
-    [(0, 0), (0, 1), (0, 2), (1, 1), (1, 2), (2, 2)]
     """
     if r > n:
         return
@@ -196,7 +145,7 @@ def combinations_with_replacement(r: int, n: int) -> Generator:
             if nums[idx] != n - 1:
                 curr_idx = idx
                 break
-        # if nothing can be modified, there is no more permutations
+        # if nothing can be modified, there are no more permutations
         else:
             return
 
@@ -212,7 +161,7 @@ def combinations_with_replacement(r: int, n: int) -> Generator:
         yield tuple(num for num in nums)
 
 
-def permutations(iterable, length=None):
+def permutations(iterable: Iterable, length: int = None) -> Generator:
     """
     Recursively generates k-permutations of an iterable.
     Yields a new permutation (in ascending order) with each next() call.
@@ -222,31 +171,17 @@ def permutations(iterable, length=None):
     :param iterable: iterable to get permutations from
     :param length: length of each permutation
     :return: generator object (iterable of all permutations found)
-
-    >>> list(permutations([1,2,3], 2))
-    [(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]
-    >>> list(permutations([10, 16, -11], 3))
-    [(10, 16, -11), (10, -11, 16), (16, 10, -11), (16, -11, 10), (-11, 10, 16), (-11, 16, 10)]
-    >>> list(permutations([1,5,-7]))
-    [(1, 5, -7), (1, -7, 5), (5, 1, -7), (5, -7, 1), (-7, 1, 5), (-7, 5, 1)]
-    >>> type(permutations([1, 2, 3]))
-    <class 'generator'>
     """
     if length is None:
         length = len(iterable)
 
     if length == 1:
-        for el in iterable:
-            yield el,
+        for elem in iterable:
+            yield elem,
     else:
-        for el in iterable:
-            new_iterable = copy(iterable)
-            new_iterable.remove(el)
-            
+        for elem in iterable:
+            new_iterable = [*iterable]
+            new_iterable.remove(elem)
+
             for pre_permutation in permutations(new_iterable, length-1):
-                yield el, *pre_permutation
-                
-                
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+                yield elem, *pre_permutation
