@@ -177,7 +177,7 @@ def permutations(iterable: Iterable, length: int = None) -> Generator:
 
     if length == 1:
         for elem in iterable:
-            yield elem,
+            yield (elem,)
     else:
         for elem in iterable:
             new_iterable = [*iterable]

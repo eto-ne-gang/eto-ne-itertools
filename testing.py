@@ -1,8 +1,9 @@
 """Test functions from the 'eto_ne_itertools' module using unittest."""
 
 
-from eto_ne_itertools import *
 import unittest
+from eto_ne_itertools import (count, cycle, combinations, combinations_with_replacement,
+                              repeat, product, permutations)
 
 
 class TestCount(unittest.TestCase):
