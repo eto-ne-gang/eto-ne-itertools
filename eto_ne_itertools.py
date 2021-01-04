@@ -13,6 +13,7 @@
 
 """
 from typing import Generator, Iterable
+from copy import copy
 
 
 def count(start: int = 0, step: int = 1) -> Generator:
@@ -211,7 +212,7 @@ def combinations_with_replacement(r: int, n: int) -> Generator:
         yield tuple(num for num in nums)
 
 
-def permutations(iterable, length="iterable"):
+def permutations(iterable, length=None):
     """
     Recursively generates k-permutations of an iterable.
     Yields a new permutation (in ascending order) with each next() call.
@@ -222,32 +223,28 @@ def permutations(iterable, length="iterable"):
     :param length: length of each permutation
     :return: generator object (iterable of all permutations found)
 
-    >>> list(permutations([1, 2, 3], 2))
-    [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+    >>> list(permutations([1,2,3], 2))
+    [(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]
     >>> list(permutations([10, 16, -11], 3))
-    [[10, 16, -11], [10, -11, 16], [16, 10, -11], [16, -11, 10], [-11, 10, 16], [-11, 16, 10]]
+    [(10, 16, -11), (10, -11, 16), (16, 10, -11), (16, -11, 10), (-11, 10, 16), (-11, 16, 10)]
     >>> list(permutations([1,5,-7]))
-    [[1, 5, -7], [1, -7, 5], [5, 1, -7], [5, -7, 1], [-7, 1, 5], [-7, 5, 1]]
+    [(1, 5, -7), (1, -7, 5), (5, 1, -7), (5, -7, 1), (-7, 1, 5), (-7, 5, 1)]
     >>> type(permutations([1, 2, 3]))
     <class 'generator'>
     """
-    if length == "iterable":
+    if length is None:
         length = len(iterable)
+
     if length == 1:
-        lst = [[el] for el in iterable]
-        for permutation in lst:
-            yield permutation
+        for el in iterable:
+            yield el,
     else:
-        new_permutations = []
-        for permutation in permutations(iterable, length - 1):
-            temp_iterable = []
-            for elem in iterable:
-                if elem not in permutation:
-                    temp_iterable.append(elem)
-            for add_elem in temp_iterable:
-                new_permutations.append(permutation + [add_elem])
-        for permutation in new_permutations:
-            yield permutation
+        for el in iterable:
+            new_iterable = copy(iterable)
+            new_iterable.remove(el)
+
+            for pre_permutation in permutations(new_iterable, length-1):
+                yield el, *pre_permutation
 
 
 if __name__ == '__main__':
