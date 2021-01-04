@@ -1,6 +1,4 @@
-'''
-This module tests functions from the 'eto_ne_itertools' module using unittest.
-'''
+"""Test functions from the 'eto_ne_itertools' module using unittest."""
 
 
 from eto_ne_itertools import *
@@ -65,15 +63,16 @@ class TestCombinationsReplacement(unittest.TestCase):
         self.assertEqual(list(combinations_with_replacement(0, 3)), [()])
 
     def test_invalid(self):
-        self.assertEqual(list(combinations(14, 7)), [])
-        self.assertEqual(list(combinations(4, 3)), [])
-        self.assertEqual(list(combinations(5, 1)), [])
+        self.assertEqual(list(combinations_with_replacement(14, 7)), [])
+        self.assertEqual(list(combinations_with_replacement(4, 3)), [])
+        self.assertEqual(list(combinations_with_replacement(5, 1)), [])
 
     def test_regular(self):
-        self.assertEqual(list(combinations(2, 3)), [
+        self.assertEqual(list(combinations_with_replacement(2, 3)), [
                          (0, 0), (0, 1), (0, 2), (1, 1), (1, 2), (2, 2)])
-        self.assertEqual(list(combinations(1, 2)), [(0,), (1,)])
-        self.assertEqual(list(combinations(1, 1)), [(0,)])
+        self.assertEqual(
+            list(combinations_with_replacement(1, 2)), [(0,), (1,)])
+        self.assertEqual(list(combinations_with_replacement(1, 1)), [(0,)])
 
 
 if __name__ == '__main__':
