@@ -73,7 +73,6 @@ def repeat(val):
     number of repetitions equals to infinity.
 
     :param val: a value to repeat
-    :param repeat[optional]: number of repetitions
     :return: generator of repeated values
 
     >>> type(repeat(5))
@@ -105,7 +104,6 @@ def product(*iterables: Iterable):
             # of all iterables except the first one
             for prod in product(*iterables[1:]):
                 # add an element from the first iterable at the beginning
-                print(prod)
                 yield elem_1, *prod
     else:
         yield ()
