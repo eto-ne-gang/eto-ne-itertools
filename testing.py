@@ -126,7 +126,7 @@ class TestProduct(unittest.TestCase):
                          (c, 0), (c, 5), (u, 0), (u, 5)])
 
 
-class TestProduct(unittest.TestCase):
+class TestPermutations(unittest.TestCase):
 
     def test_type(self):
         self.assertEqual(type(permutations([1, 3])), '<class \'generator\'>')
