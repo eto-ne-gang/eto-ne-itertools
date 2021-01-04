@@ -242,11 +242,11 @@ def permutations(iterable, length=None):
         for el in iterable:
             new_iterable = copy(iterable)
             new_iterable.remove(el)
-
+            
             for pre_permutation in permutations(new_iterable, length-1):
                 yield el, *pre_permutation
-
-
+                
+                
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
